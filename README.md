@@ -1,0 +1,1 @@
+# ktlint-json-reporter
