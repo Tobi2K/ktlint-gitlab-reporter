@@ -13,7 +13,7 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'kotlin'
 
-group 'kalmbach.json-ktlint-reporter'
+group 'kalmbach.ktlint-gitlab-reporter'
 version '1.0'
 
 sourceCompatibility = 1.8

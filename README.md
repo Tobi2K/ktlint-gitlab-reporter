@@ -25,10 +25,10 @@ The reporter outputs the following format:
 
 
 ## How do I use the reporter?
-1. Download the `ktlint-json-reporter.jar` from this repository.
+1. Download the `ktlint-gitlab-reporter.jar` from this repository.
 2. Copy the JAR file to your Kotlin project.
-3. To use the custom reporter, run `ktlint --reporter=gitlab,artifact=/path/to/json-ktlint-reporter.jar`
-   1. If you wish to specify the output directory run `ktlint --reporter=gitlab,artifact=/path/to/json-ktlint-reporter.jar,output=path/to/output/output.json`
+3. To use the custom reporter, run `ktlint --reporter=gitlab,artifact=/path/to/ktlint-gitlab-reporter.jar`
+   1. If you wish to specify the output directory run `ktlint --reporter=gitlab,artifact=/path/to/ktlint-gitlab-reporter.jar,output=path/to/output/output.json`
 
 For more information about custom reporters, see the documentation [here](https://github.com/pinterest/ktlint#creating-a-reporter)
 

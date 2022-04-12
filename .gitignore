@@ -12,7 +12,7 @@
 
 # Package Files #
 *.jar
-!json-ktlint-reporter.jar
+!ktlint-gitlab-reporter.jar
 *.war
 *.nar
 *.ear
