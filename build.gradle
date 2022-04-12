@@ -1,0 +1,28 @@
+buildscript {
+    ext.kotlinVersion = '1.6.20'
+    ext.ktlintVersion = '0.45.2'
+    ext.junitVersion = '4.12'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+group 'kalmbach.json-ktlint-reporter'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.20'
+    compileOnly 'com.pinterest.ktlint:ktlint-core:0.45.2'
+}
