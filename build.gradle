@@ -1,12 +1,13 @@
 buildscript {
     ext.kotlinVersion = '1.6.20'
-    ext.ktlintVersion = '0.45.2'
+    ext.ktlintVersion = '0.46.1'
     ext.junitVersion = '4.12'
     repositories {
         mavenCentral()
     }
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20"
+        classpath "org.apache.commons:commons-text:1.9"
     }
 }
 
@@ -23,6 +24,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.20'
-    compileOnly 'com.pinterest.ktlint:ktlint-core:0.45.2'
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.0'
+    compileOnly 'com.pinterest.ktlint:ktlint-core:0.46.1'
+    implementation 'org.apache.commons:commons-text:1.9'
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

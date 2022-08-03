@@ -2,9 +2,10 @@ package reporter
 
 import com.pinterest.ktlint.core.LintError
 import com.pinterest.ktlint.core.Reporter
-import com.pinterest.ktlint.core.internal.relativeRoute
+import org.apache.commons.text.StringEscapeUtils
 import java.io.File
 import java.io.PrintStream
+import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
 
@@ -26,21 +27,17 @@ class JsonReporter(private val out: PrintStream) : Reporter {
             for ((index, err) in errList.withIndex()) {
                 val (line, _, ruleId, detail) = err
 
-                val name = (file.split("/")
-                    .last()
-                    .split(".")
-                    .takeIf { it.size == 2 }
-                    ?.firstOrNull()
-                    ?.takeIf { it.isNotBlank() }
-                    ?.let { "$it:$line - $detail" }
-                    ?: detail)
+                val name = (file.split("/").last().split(".").takeIf { it.size == 2 }?.firstOrNull()
+                    ?.takeIf { it.isNotBlank() }?.let { "$it:$line - $detail" } ?: detail)
 
-                val relativeFilePath = File(file).relativeRoute
+                val rootPath = Paths.get("").toAbsolutePath()
+                val filePath = File(file).toPath()
+                val relativeFilePath = rootPath.relativize(filePath).toString().replace(File.separatorChar, '/')
 
                 out.println(
                     """
                     {
-                        "description": "$name (Rule: $ruleId)",
+                        "description": "${StringEscapeUtils.escapeJson("$name (Rule: $ruleId)")}",
                         "severity": "major",
                         "location": {
                             "path": "$relativeFilePath",
