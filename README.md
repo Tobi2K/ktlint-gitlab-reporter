@@ -61,6 +61,8 @@ ktlint:
 
 This will generate a pipeline report. View it by going to your project and navigate to `CI/CD > Pipelines`, select your pipeline and go to the Code Quality tab.
 
+> IMPORTANT NOTE: The `Code Quality` tab is only available with GitLab Premium or Ultimate. However, you can still download the created artifacts on the pipeline overview and view the JSON file.
+
 Example: 
 ![example_code_quality](screenshots/code_quality_screenshot.png)
 
