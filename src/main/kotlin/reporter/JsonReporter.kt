@@ -22,9 +22,10 @@ class JsonReporter(private val out: PrintStream) : Reporter {
     override fun afterAll() {
         out.println("""[""")
 
-        for (entry in acc.entries.sortedBy { it.key }) {
+        out.println(acc.entries.sortedBy { it.key }.map { entry ->
             val (file, errList) = entry
-            for ((index, err) in errList.withIndex()) {
+
+            errList.map { err ->
                 val (line, _, ruleId, detail) = err
 
                 val name = "${File(file).nameWithoutExtension}:$line - $detail"
@@ -33,21 +34,19 @@ class JsonReporter(private val out: PrintStream) : Reporter {
                 val filePath = File(file).toPath()
                 val relativeFilePath = rootPath.relativize(filePath).toString().replace(File.separatorChar, '/')
 
-                out.println(
-                    """
-                    {
-                        "description": "${StringEscapeUtils.escapeJson("$name (Rule: $ruleId)")}",
-                        "severity": "major",
-                        "location": {
-                            "path": "$relativeFilePath",
-                            "lines": {
-                                "begin": $line
-                            }
-                        }
-                    }${if (index != (errList.size - 1)) "," else ""}""".trimMargin()
-                )
+                """
+                |    {
+                |        "description": "${StringEscapeUtils.escapeJson("$name (Rule: $ruleId)")}",
+                |        "severity": "major",
+                |        "location": {
+                |            "path": "$relativeFilePath",
+                |            "lines": {
+                |                "begin": $line
+                |            }
+                |        }
+                |    }""".trimMargin()
             }
-        }
+        }.flatten().joinToString(",\n"))
 
         out.println("""]""")
     }
