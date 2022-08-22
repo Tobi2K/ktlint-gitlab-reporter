@@ -27,8 +27,7 @@ class JsonReporter(private val out: PrintStream) : Reporter {
             for ((index, err) in errList.withIndex()) {
                 val (line, _, ruleId, detail) = err
 
-                val name = (file.split("/").last().split(".").takeIf { it.size == 2 }?.firstOrNull()
-                    ?.takeIf { it.isNotBlank() }?.let { "$it:$line - $detail" } ?: detail)
+                val name = "${File(file).nameWithoutExtension}:$line - $detail"
 
                 val rootPath = Paths.get("").toAbsolutePath()
                 val filePath = File(file).toPath()
