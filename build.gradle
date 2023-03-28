@@ -13,9 +13,12 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
-group 'kalmbach.ktlint-gitlab-reporter'
-version '1.0'
+group = "io.github.tobi2k"
+archivesBaseName = "ktlint-gitlab-reporter"
+version = "1.0.0"
 
 sourceCompatibility = 1.8
 
@@ -26,7 +29,7 @@ repositories {
 dependencies {
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.7.0'
     compileOnly 'com.pinterest.ktlint:ktlint-core:0.46.1'
-    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'org.apache.commons:commons-text:1.10.0'
 }
 
 jar {
@@ -34,4 +37,70 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'ktlint-gitlab-reporter'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = 'ktlint GitLab reporter'
+                description = 'A GitLab compatible JSON reporter for ktlint'
+                url = 'https://github.com/Tobi2K/ktlint-gitlab-reporter'
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'http://www.opensource.org/licenses/mit-license.php'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'tobi2k'
+                        name = 'Tobias Kalmbach'
+                        email = 'tobias@kalmbach.dev'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/Tobi2K/ktlint-gitlab-reporter'
+                    developerConnection = 'scm:git:ssh://github.com:Tobi2K/ktlint-gitlab-reporter.git'
+                    url = 'https://github.com/Tobi2K/ktlint-gitlab-reporter'
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username ossrhUsername
+                password ossrhPassword
+            }
+            def releasesRepoUrl = 'https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
+}
+
+
+javadoc {
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
 }
