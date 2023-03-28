@@ -32,6 +32,20 @@ The reporter outputs the following format:
 
 For more information about custom reporters, see the documentation [here](https://github.com/pinterest/ktlint#creating-a-reporter)
 
+
+## Other Download Options
+Besides downloading the `ktlint-gitlab-reporter.jar` file directly you can use the published package from Maven Central:
+```
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.tobi2k:ktlint-gitlab-reporter:x.y.z'
+}
+```
+> Note: AFAIK it is not possible to use the package as a reporter directly in ktlint, but you can automatically download the reporter using your preferred build tool (e.g., Gradle or Maven).
+
 ## Export artifacts in GitLab CI
 This is a very small example on how to incorporate this custom reporter into GitLab CI. 
 It is assumed, that you generally know how to use GitLab CI. Read up [here](https://docs.gitlab.com/ee/ci/).
