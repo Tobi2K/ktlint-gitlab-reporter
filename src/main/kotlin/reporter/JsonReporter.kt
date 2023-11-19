@@ -1,7 +1,8 @@
 package reporter
 
-import com.pinterest.ktlint.core.LintError
-import com.pinterest.ktlint.core.Reporter
+import com.pinterest.ktlint.cli.reporter.core.api.ReporterV2
+import com.pinterest.ktlint.cli.reporter.core.api.KtlintCliError
+import com.pinterest.ktlint.cli.reporter.core.api.KtlintCliError.Status.FORMAT_IS_AUTOCORRECTED
 import org.apache.commons.text.StringEscapeUtils
 import java.io.File
 import java.io.PrintStream
@@ -9,13 +10,13 @@ import java.nio.file.Paths
 import java.util.concurrent.ConcurrentHashMap
 
 
-class JsonReporter(private val out: PrintStream) : Reporter {
+class JsonReporter(private val out: PrintStream) : ReporterV2 {
 
-    private val acc = ConcurrentHashMap<String, MutableList<LintError>>()
+    private val acc = ConcurrentHashMap<String, MutableList<KtlintCliError>>()
 
-    override fun onLintError(file: String, err: LintError, corrected: Boolean) {
-        if (!corrected) {
-            acc.getOrPut(file) { ArrayList() }.add(err)
+    override fun onLintError(file: String, ktlintCliError: KtlintCliError) {
+        if (ktlintCliError.status != FORMAT_IS_AUTOCORRECTED) {
+            acc.getOrPut(file) { ArrayList() }.add(ktlintCliError)
         }
     }
 
@@ -26,7 +27,9 @@ class JsonReporter(private val out: PrintStream) : Reporter {
             val (file, errList) = entry
 
             errList.map { err ->
-                val (line, _, ruleId, detail) = err
+                val line = err.line
+                val ruleId = err.ruleId
+                val detail = err.detail
 
                 val name = "${File(file).nameWithoutExtension}:$line - $detail"
 

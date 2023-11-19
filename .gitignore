@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!ktlint-gitlab-reporter-legacy.jar
 !ktlint-gitlab-reporter.jar
 *.war
 *.nar

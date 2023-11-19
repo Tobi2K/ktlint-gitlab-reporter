@@ -30,11 +30,13 @@ The reporter outputs the following format:
 3. To use the custom reporter, run `ktlint --reporter=gitlab,artifact=/path/to/ktlint-gitlab-reporter.jar`
    1. If you wish to specify the output directory run `ktlint --reporter=gitlab,artifact=/path/to/ktlint-gitlab-reporter.jar,output=path/to/output/output.json`
 
-For more information about custom reporters, see the documentation [here](https://pinterest.github.io/ktlint/api/custom-reporter/) and the general ktlint documentation [here](https://pinterest.github.io/ktlint/)
+For more information about custom reporters, see the documentation [here](https://pinterest.github.io/ktlint/1.0.1/api/custom-reporter/) and the general ktlint documentation [here](https://pinterest.github.io/ktlint/)
+
 
 
 ## Other Download Options
 Besides downloading the `ktlint-gitlab-reporter.jar` file directly you can head over to [Releases](https://github.com/Tobi2K/ktlint-gitlab-reporter/releases) or simply use the published package from Maven Central:
+> *NOTE*: The `ktlint-gitlab-reporter-legacy.jar` uses ktlint version `0.46.1`. ktlint implemented some major changes in `0.49.0` and `ktlint-gitlab-reporter.jar` now supports ktlint `1.0.1`!
 ```
 repositories {
     mavenCentral()
@@ -98,4 +100,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ---
 
 > GitHub [@Tobi2K](https://github.com/Tobi2K) &nbsp;&middot;&nbsp;
-> Email [t.kalmbach35@gmail.com](mailto:t.kalmbach35@gmail.com)
+> Email [tobias@kalmbach.dev](mailto:tobias@kalmbach.dev)
