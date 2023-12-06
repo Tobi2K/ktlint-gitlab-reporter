@@ -9,17 +9,20 @@ This helps you with inspecting Merge Requests before merging or keeping your cod
 The reporter outputs the following format:
 ```json lines
 [
-   {
-      "description": "<file name>:<line number> (Rule: <rule description>)",
-      "severity": "major",
-      "location": {
-         "path": "<relative file path>",
-         "lines": {
-            "begin": "<line number>"
-         }
-      }
-   }, 
-   ...
+    {
+        "type": "issue",
+        "check_name": "standard:function-signature",
+        "description": "Scenario:28 - Newline expected after opening parenthesis (Rule: standard:function-signature)",
+        "categories": ["Style"],
+        "location": {
+            "path": "path/to/Scenario.kt",
+            "lines": {
+                "begin": 28
+            }
+        },
+        "severity": "major",
+        "fingerprint": "c557e42ba57f1e38f0b1b4f21ba5c610"
+    }, ...
 ]
 ```
 
